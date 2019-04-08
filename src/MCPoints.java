@@ -20,7 +20,7 @@ public class MCPoints extends JPanel implements ActionListener, KeyListener{
 	double distance = 0.05;
 	int latice = 12;
 	long startTime, endTime;
-	double a = /*2/(1 + Math.sqrt(5))*/ Math.random(), b = /*(a * 1.0/7) + 1.0/5*/ /*Math.sqrt(2) - 1*/ Math.random();
+	double a = 22.0/29 + 17.0/174 /*2/(1 + Math.sqrt(5))*/ /*Math.random()*/, b = 11.0/29 + (8.0*17)/(29.0*9) /*(a * 1.0/2) + 1.0/36*/ /*Math.sqrt(2) - 1*/ /*Math.random()*/;
 	
 	public MCPoints() {
 		addKeyListener(this);
