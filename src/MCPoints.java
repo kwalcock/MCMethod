@@ -11,7 +11,8 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 public class MCPoints extends JPanel implements ActionListener, KeyListener{
-
+	private static final long serialVersionUID = 1L;
+	
 	Timer t = new Timer(5, this);
 	int currPoints = 0;
 	ArrayList<double[]> points = new ArrayList<double[]>();
@@ -21,6 +22,10 @@ public class MCPoints extends JPanel implements ActionListener, KeyListener{
 	int latice = 12;
 	long startTime, endTime;
 	double a = 22.0/29 + 17.0/174 /*2/(1 + Math.sqrt(5))*/ /*Math.random()*/, b = 11.0/29 + (8.0*17)/(29.0*9) /*(a * 1.0/2) + 1.0/36*/ /*Math.sqrt(2) - 1*/ /*Math.random()*/;
+//	Discrepancy discrepancy = new Discrepancy1();
+//	Discrepancy discrepancy = new Discrepancy2();
+//	Discrepancy discrepancy = new Discrepancy3();
+	Discrepancy discrepancy = new PolarDiscrepancy();
 	
 	public MCPoints() {
 		addKeyListener(this);
@@ -50,76 +55,15 @@ public class MCPoints extends JPanel implements ActionListener, KeyListener{
 	}
 	
 	public void generate(double irr1, double irr2, int mul) {
-		double[] e = {0, 0, 0};
+		double[] e = {(irr1 * mul) % 1, (irr2 * mul) % 1, 0};
 		points.add(e);
-		points.get(mul)[0] = (irr1*mul) % 1;
-		points.get(mul)[1] = (irr2*mul) % 1;
+		discrepancy.addPoint(e[0], e[1]);
 	}
 	
 	public void generate(int i) {
-		double[] e = {0, 0, 0};
+		double[] e = {Math.random(), Math.random(), 0};
 		points.add(e);
-		points.get(i)[0] = Math.random();
-		points.get(i)[1] = Math.random();
-	}
-	
-	public double discrepancy1(int p) {
-		int step = p/1000 + 1;
-		double d = 0;
-		double past;
-		double x, y;
-		for(int i = 0; i < p; i ++) {
-			x = points.get(i)[0];
-			y = points.get(i)[1];
-			past = 0;
-			for(int j = 0; j < p; j += 1) {
-				if(points.get(j)[0] < x && points.get(j)[1] < y) past += 1;
-			}
-			past -= x * y * (p-1);
-			past = Math.pow(past,  2);
-			d += past;
-		}
-		return Math.sqrt(d)/p;
-	}
-	
-	public double discrepancy2(int p) {
-		double d = 0;
-		double[][] past = new double[latice][latice];
-		for(int i = 0; i < p; i++) {
-			int x = (int)(points.get(i)[0] * latice);
-			int y = (int)(points.get(i)[0] * latice);
-			for(int j = 0; j <= x; j++) {
-				for(int k = 0; k <= y; k++) {
-					past[k][j]++;
-				}
-			}
-		}
-		for(int i = 0; i < latice; i++) {
-			for(int j = 0; j < latice; j++) {
-				past[i][j] -= ((i + 1)/latice) * ((j + 1)/latice) * p;
-				past[i][j] = Math.pow(past[i][j], 2);
-				d += past[i][j];
-			}
-		}
-		return Math.sqrt(d)/(p*latice*latice);
-	}
-	
-	public double discrepancy3(int p) {
-		double d = 0;
-		double[][] in = new double[latice][latice];
-		for(int i = 0; i < p; i++) {
-			int x = (int)(points.get(i)[0] * latice);
-			int y = (int)(points.get(i)[0] * latice);
-			in[x][y]++;
-		}
-		for(int i = 0; i < latice; i++) {
-			for(int j = 0; j < latice; j++) {
-				in[i][j] -= p/(latice*latice);
-				in[i][j] = Math.pow(in[i][j], 2);
-				d += in[i][j];
-			}
-		}
-		return Math.sqrt(d)/(p*latice*latice);
+		discrepancy.addPoint(e[0], e[1]);
 	}
 	
 	/*public void within(int num) {
@@ -130,13 +74,13 @@ public class MCPoints extends JPanel implements ActionListener, KeyListener{
 	}*/
 	
 	public double getDev() {
-		return discrepancy1(currPoints);
+		return discrepancy.calculate(currPoints);
 	}
 	
 	public double avgDev() {
 		double end = 0;
 		for(int i = 0; i < 10; i++) {
-			end += discrepancy1(currPoints - i*20);
+			end += discrepancy.calculate(currPoints - i * 20);
 		}
 		return end/10;
 	}
@@ -153,7 +97,7 @@ public class MCPoints extends JPanel implements ActionListener, KeyListener{
 	public void actionPerformed(ActionEvent arg0) {
 		generate(a, b, currPoints);
 		//generate();
-		points.get(currPoints)[2] = discrepancy1(currPoints);
+		points.get(currPoints)[2] = discrepancy.calculate(currPoints);
 		if(points.get(currPoints)[2] > greatest) greatest = points.get(currPoints)[2];
 		currPoints++;
 		repaint();
@@ -189,7 +133,7 @@ public class MCPoints extends JPanel implements ActionListener, KeyListener{
 			break;
 		case(KeyEvent.VK_RIGHT):
 			generate(a, b, currPoints);
-			points.get(currPoints)[2] = discrepancy1(currPoints);
+			points.get(currPoints)[2] = discrepancy.calculate(currPoints);
 			if(points.get(currPoints)[2] > greatest) greatest = points.get(currPoints)[2];
 			currPoints++;
 			repaint();

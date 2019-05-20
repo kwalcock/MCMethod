@@ -11,7 +11,8 @@ import javax.swing.Timer;
 import javax.swing.JPanel;
 
 public class MCDraw extends JPanel implements KeyListener, ActionListener{
-
+	private static final long serialVersionUID = 1L;
+	
 	Timer t = new Timer(50, this);
 	ArrayList<Double[]> bars = new ArrayList<Double[]>();
 	ArrayList<int[]> height = new ArrayList<int[]>();
