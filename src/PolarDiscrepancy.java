@@ -1,10 +1,10 @@
 import java.util.ArrayList;
 
 public class PolarDiscrepancy implements Discrepancy {
-	protected ArrayList<Double> radii = new ArrayList<Double>();
+	protected ArrayList<Double> areas = new ArrayList<Double>();
 	
 	public void addPoint(double a, double b) {
-		radii.add(Math.sqrt(a * a + b * b));
+		areas.add(area(Math.sqrt(a * a + b * b)));
 	}
 	
 	public double area(double r) {
@@ -19,12 +19,12 @@ public class PolarDiscrepancy implements Discrepancy {
 	public double calculate(int p) {
 		double d = 0;
 		for (int i = 0; i < p; i++) {
-			double r = radii.get(i);
+			double area = areas.get(i);
 			double actualInside = 0;
 			for (int j = 0; j < p; j++)
-				if (radii.get(j) < r)
+				if (areas.get(j) < area)
 					actualInside++;
-			double expectedInside = area(r) * (p - 1);
+			double expectedInside = area * (p - 1);
 			double difference = actualInside - expectedInside;
 			d += difference * difference;
 		}
