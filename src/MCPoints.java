@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
@@ -20,7 +21,13 @@ public class MCPoints extends JPanel implements ActionListener, KeyListener{
 	double distance = 0.05;
 	int latice = 12;
 	long startTime, endTime;
-	double a = 22.0/29 + 17.0/174 /*2/(1 + Math.sqrt(5))*/ /*Math.random()*/, b = 11.0/29 + (8.0*17)/(29.0*9) /*(a * 1.0/2) + 1.0/36*/ /*Math.sqrt(2) - 1*/ /*Math.random()*/;
+	boolean show = false;
+	boolean circle = false;
+	int inCirc = 0;
+	double a = /*1.0/3;*/ /*2/(1 + Math.sqrt(5))*/ Math.random();
+	double b = /*a/3 + */ 1.0/3; /*(a * 1.0/2) + 1.0/36*/ /*Math.sqrt(2) - 1*//* Math.random();*/
+	Font f = new Font("serif", Font.PLAIN, 20);
+	Color nGreen = new Color(50, 200, 50);
 	
 	public MCPoints() {
 		addKeyListener(this);
@@ -31,53 +38,73 @@ public class MCPoints extends JPanel implements ActionListener, KeyListener{
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
-		for(int i = 0; i < currPoints; i++) {
-			g2.fillOval((int)(points.get(i)[0] * 800) + 8, (int)(800 - points.get(i)[1] * 800) + 8, 4, 4);
+		g2.setFont(f);
+		if(circle) {
+			g2.drawOval(-790, 20, 1600, 1600);
+			for(int i = 0; i < currPoints; i++) {
+				if(Math.pow(points.get(i)[0], 2) + Math.pow(points.get(i)[1],  2) < 1) g2.setColor(nGreen);
+				else g2.setColor(Color.BLUE);
+				g2.fillOval((int)(points.get(i)[0] * 800) + 7, (int)(800 - points.get(i)[1] * 800) + 17, 6, 6);
+			}
 		}
-		for(int i = 0; i < currPoints; i++) {
-			g2.drawLine(820 + 1000*i/currPoints, 810 - (int)(points.get(i)[2]*800/greatest), 820 + 1000*(i)/currPoints, 810);
+		else {
+			for(int i = 0; i < currPoints; i++) {
+				g2.fillOval((int)(points.get(i)[0] * 800) + 7, (int)(800 - points.get(i)[1] * 800) + 17, 6, 6);
+			}
 		}
-		g2.drawString("" + a, 10, 10);
-		g2.drawString("" + b, 820, 10);
-		g2.drawString("" + currPoints, 10, 810);
-		g2.drawString("" + greatest, 1820, 10);
-		g2.drawString("" + greatest/2, 1820, 410);
+		g2.setColor(Color.BLACK);
+		for(int i = 0; i < currPoints; i++) {
+			g2.drawLine(820 + 1000*i/currPoints, 820 - (int)(points.get(i)[3]*800/greatest), 820 + 1000*(i)/currPoints, 810);
+		}
+		g2.drawString("" + a, 10, 20);
+		g2.drawString("" + b, 820, 20);
+		g2.drawString("" + currPoints, 10, 830);
+		g2.drawString("" + greatest, 1820, 20);
+		g2.drawString("" + greatest/2, 1820, 420);
 		if(currPoints != 0)	{
-			g2.drawString("" + points.get(currPoints-1)[2], 1820, 810 - (int)(points.get(currPoints-1)[2]*800/greatest));
+			g2.drawString("" + points.get(currPoints-1)[3], 1820, 820 - (int)(points.get(currPoints-1)[3]*800/greatest));
 			g2.setColor(Color.RED);
-			g2.fillOval((int)(points.get(currPoints-1)[0] * 800) + 7, (int)(800 - points.get(currPoints-1)[1] * 800) + 7, 6, 6);
+			g2.fillOval((int)(points.get(currPoints-1)[0] * 800) + 5, (int)(800 - points.get(currPoints-1)[1] * 800) + 15, 10, 10);
+			if(show == true) {
+				String x = "" + points.get(currPoints-1)[0];
+				String y = "" + points.get(currPoints-1)[1];
+				g2.drawString("(" + x.substring(0, 5) + ", " + y.substring(0, 5) + ")", (int)(points.get(currPoints-1)[0] * 800) + 5, 
+				(int)(800 - points.get(currPoints-1)[1] * 800) + 15);
+			}
+			g2.drawString("" + 4 * (double)inCirc/currPoints, 410,830);
 		}
 	}
 	
 	public void generate(double irr1, double irr2, int mul) {
-		double[] e = {0, 0, 0};
+		double[] e = {0, 0, 0, 0};
 		points.add(e);
 		points.get(mul)[0] = (irr1*mul) % 1;
 		points.get(mul)[1] = (irr2*mul) % 1;
+		for(int i = 0; i < mul; i++) {
+			if(points.get(mul)[0] < points.get(i)[0] && points.get(mul)[1] < points.get(i)[1]) points.get(i)[2]++;
+			else if(points.get(mul)[0] > points.get(i)[0] && points.get(mul)[1] > points.get(i)[1]) points.get(mul)[2]++;
+			points.get(i)[2] -= points.get(i)[0]*points.get(i)[1];
+			points.get(mul)[2] -= points.get(mul)[0]*points.get(mul)[1];
+		}
 	}
 	
 	public void generate(int i) {
-		double[] e = {0, 0, 0};
+		double[] e = {0, 0, 0, 0};
 		points.add(e);
 		points.get(i)[0] = Math.random();
 		points.get(i)[1] = Math.random();
+		for(int j = 0; j < i; j++) {
+			if(points.get(i)[0] < points.get(j)[0] && points.get(i)[1] < points.get(j)[1]) points.get(j)[2]++;
+			else if(points.get(i)[0] > points.get(j)[0] && points.get(i)[1] > points.get(j)[1]) points.get(i)[2]++;
+			points.get(j)[2] -= points.get(j)[0]*points.get(j)[1];
+			points.get(i)[2] -= points.get(i)[0]*points.get(i)[1];
+		}
 	}
 	
 	public double discrepancy1(int p) {
-		int step = p/1000 + 1;
 		double d = 0;
-		double past;
-		double x, y;
 		for(int i = 0; i < p; i ++) {
-			x = points.get(i)[0];
-			y = points.get(i)[1];
-			past = 0;
-			for(int j = 0; j < p; j += 1) {
-				if(points.get(j)[0] < x && points.get(j)[1] < y) past += 1;
-			}
-			past -= x * y * (p-1);
-			past = Math.pow(past,  2);
-			d += past;
+			d += Math.pow(points.get(i)[2],  2);
 		}
 		return Math.sqrt(d)/p;
 	}
@@ -151,10 +178,11 @@ public class MCPoints extends JPanel implements ActionListener, KeyListener{
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		generate(a, b, currPoints);
-		//generate();
-		points.get(currPoints)[2] = discrepancy1(currPoints);
-		if(points.get(currPoints)[2] > greatest) greatest = points.get(currPoints)[2];
+		/*generate(a, b, currPoints);*/
+		generate(currPoints);
+		points.get(currPoints)[3] = discrepancy1(currPoints);
+		if(points.get(currPoints)[3] > greatest) greatest = points.get(currPoints)[3];
+		if(Math.pow(points.get(currPoints)[0], 2) + Math.pow(points.get(currPoints)[1],  2) < 1) inCirc++;
 		currPoints++;
 		repaint();
 		if(currPoints%100 == 0) {
@@ -179,16 +207,19 @@ public class MCPoints extends JPanel implements ActionListener, KeyListener{
 			currPoints = 0;
 			points = new ArrayList<double[]>();
 			greatest = 0;
+			inCirc = 0;
 			repaint();
 			break;
 		case(KeyEvent.VK_Q):
 			currPoints = 0;
 			points = new ArrayList<double[]>();
 			greatest = 0;
+			inCirc = 0;
 			repaint();
 			break;
 		case(KeyEvent.VK_RIGHT):
-			generate(a, b, currPoints);
+			/*generate(a, b, currPoints);*/
+			generate(currPoints);
 			points.get(currPoints)[2] = discrepancy1(currPoints);
 			if(points.get(currPoints)[2] > greatest) greatest = points.get(currPoints)[2];
 			currPoints++;
@@ -197,6 +228,17 @@ public class MCPoints extends JPanel implements ActionListener, KeyListener{
 		case(KeyEvent.VK_LEFT):
 			points.remove(currPoints-1);
 			currPoints--;
+			repaint();
+			break;
+		case(KeyEvent.VK_S):
+			show = !show;
+			repaint();
+			break;
+		case(KeyEvent.VK_C):
+			circle = !circle;
+			currPoints = 0;
+			points = new ArrayList<double[]>();
+			greatest = 0;
 			repaint();
 			break;
 		}
