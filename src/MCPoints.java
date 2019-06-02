@@ -22,10 +22,11 @@ public class MCPoints extends JPanel implements ActionListener, KeyListener{
 	int latice = 12;
 	long startTime, endTime;
 	double a = 22.0/29 + 17.0/174 /*2/(1 + Math.sqrt(5))*/ /*Math.random()*/, b = 11.0/29 + (8.0*17)/(29.0*9) /*(a * 1.0/2) + 1.0/36*/ /*Math.sqrt(2) - 1*/ /*Math.random()*/;
-//	Discrepancy discrepancy = new Discrepancy1();
+	Discrepancy discrepancy = new Discrepancy1();
 //	Discrepancy discrepancy = new Discrepancy2();
 //	Discrepancy discrepancy = new Discrepancy3();
-	Discrepancy discrepancy = new PolarDiscrepancy();
+//	Discrepancy discrepancy = new PolarDiscrepancy();
+//	Discrepancy discrepancy = new SortedPolarDiscrepancy();
 	
 	public MCPoints() {
 		addKeyListener(this);
@@ -100,12 +101,12 @@ public class MCPoints extends JPanel implements ActionListener, KeyListener{
 		points.get(currPoints)[2] = discrepancy.calculate(currPoints);
 		if(points.get(currPoints)[2] > greatest) greatest = points.get(currPoints)[2];
 		currPoints++;
-		repaint();
+//		repaint();
 		if(currPoints%100 == 0) {
 			startTime = System.nanoTime();
 		}if(currPoints%100 == 99) {
 			endTime = System.nanoTime();
-			System.out.println(endTime - startTime);
+			System.out.println("" + currPoints + "\t" + (endTime - startTime));
 		}
 	}
 
