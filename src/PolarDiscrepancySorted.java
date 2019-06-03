@@ -3,7 +3,8 @@ import java.util.Comparator;
 
 public class PolarDiscrepancySorted extends PolarDiscrepancy {
 
-	protected Comparator<PolarPoint> comparator = new Comparator<PolarPoint>() {
+	public static class PolarPointComparator implements Comparator<PolarPoint> {
+		
 		public int compare(PolarPoint left, PolarPoint right) {
 			double difference = left.area - right.area;
 			
@@ -13,7 +14,9 @@ public class PolarDiscrepancySorted extends PolarDiscrepancy {
 				return 1;
 			else return 0;
 		}
-	};
+	}
+	
+	protected PolarPointComparator comparator = new PolarPointComparator();
 	
 	public PolarDiscrepancySorted(double a, double b) {
 		super(a, b);

@@ -29,6 +29,10 @@ public class Discrepancy1Fast implements Discrepancy {
 		this.pointGenerator = new FastPointGenerator(a, b);
 	}
 	
+	public void clear() {
+		points.clear();
+	}
+		
 	public Point next() {
 		FastPoint newPoint = pointGenerator.next();		
 		

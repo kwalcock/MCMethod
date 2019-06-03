@@ -8,6 +8,10 @@ public class Discrepancy1 implements Discrepancy {
 		this.pointGenerator = new SimplePointGenerator(a, b);
 	}
 	
+	public void clear() {
+		points.clear();
+	}
+	
 	public Point next() {
 		Point point = pointGenerator.next();
 		

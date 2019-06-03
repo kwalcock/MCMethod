@@ -29,8 +29,12 @@ public class Point {
 		this.d = d;
 	}
 	
+	public double calcR2() {
+		return x * x + y * y;
+	}
+	
 	public boolean isInside(double r) {
-		return x * x + y * y < r * r;
+		return calcR2() < r * r;
 	}
 	
 	public boolean isInside(Point other) {

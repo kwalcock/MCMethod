@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Discrepancy2 {
+public class Discrepancy2 implements Discrepancy {
 	protected ArrayList<Point> points = new ArrayList<Point>();
 	protected PointGenerator pointGenerator;
 	
@@ -10,6 +10,10 @@ public class Discrepancy2 {
 		this.pointGenerator = new SimplePointGenerator(a, b);
 	}
 	
+	public void clear() {
+		points.clear();
+	}
+		
 	public Point next() {
 		Point point = pointGenerator.next();
 			

@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class PolarDiscrepancy implements Discrepancy {
 	
-	protected class PolarPoint extends Point {
+	public static class PolarPoint extends Point {
 		protected double area;
 		
 		public PolarPoint(double x, double y, double area) {
@@ -15,14 +15,14 @@ public class PolarDiscrepancy implements Discrepancy {
 		}
 	}
 	
-	protected class PolarPointGenerator extends BasePointGenerator {
+	public static class PolarPointGenerator extends BasePointGenerator {
 		
 		public PolarPointGenerator(double a, double b) {
 			super(a, b);
 		}
 		
 		protected double calcArea(double r) {
-			double r2= r * r;
+			double r2 = r * r;
 			double quarter = Math.PI * r2 / 4;
 			if (r <= 1)
 				return quarter;
@@ -51,6 +51,10 @@ public class PolarDiscrepancy implements Discrepancy {
 		this.pointGenerator = new PolarPointGenerator(a, b);
 	}
 	
+	public void clear() {
+		points.clear();
+	}
+			
 	public Point next() {
 		PolarPoint point = pointGenerator.next();
 		

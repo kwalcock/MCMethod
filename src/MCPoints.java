@@ -34,11 +34,12 @@ public class MCPoints extends JPanel implements ActionListener, KeyListener{
 	Color nGreen = new Color(50, 200, 50);
 	
 //	Discrepancy discrepancy = new Discrepancy1(a, b);
-	Discrepancy discrepancy = new Discrepancy1Fast(a, b);
+//	Discrepancy discrepancy = new Discrepancy1Fast(a, b);
 //	Discrepancy discrepancy = new Discrepancy2(a, b);
 //	Discrepancy discrepancy = new Discrepancy3(a, b);
 //	Discrepancy discrepancy = new PolarDiscrepancy(a, b);
 //	Discrepancy discrepancy = new PolarDiscrepancySorted(a, b);
+	Discrepancy discrepancy = new PolarDiscrepancyLinked(a, b);
 	
 	public MCPoints() {
 		addKeyListener(this);
