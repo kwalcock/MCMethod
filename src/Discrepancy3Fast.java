@@ -28,9 +28,9 @@ public class Discrepancy3Fast implements Discrepancy {
 		double d = 0;
 		double factor = 1d * count / lattice / lattice;
 		
-		for (int i = 0; i < lattice; i++) {
-			for (int j = 0; j < lattice; j++) {
-				double actualInside = actualInsides[i][j];
+		for (int x = 0; x < lattice; x++) {
+			for (int y = 0; y < lattice; y++) {
+				double actualInside = actualInsides[x][y];
 				double expectedInside = factor;
 				double difference = actualInside - expectedInside;
 

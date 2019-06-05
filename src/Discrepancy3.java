@@ -32,11 +32,11 @@ public class Discrepancy3 implements Discrepancy {
 			
 			in[x][y]++;
 		}
-		for (int i = 0; i < lattice; i++) {
-			for (int j = 0; j < lattice; j++) {
-				in[i][j] -= (double) count / (lattice * lattice);
-				in[i][j] = Math.pow(in[i][j], 2);
-				d += in[i][j];
+		for (int x = 0; x < lattice; x++) {
+			for (int y = 0; y < lattice; y++) {
+				in[x][y] -= (double) count / (lattice * lattice);
+				in[x][y] = Math.pow(in[x][y], 2);
+				d += in[x][y];
 			}
 		}
 		return Math.sqrt(d) / (count * lattice * lattice);

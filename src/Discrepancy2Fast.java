@@ -18,9 +18,7 @@ public class Discrepancy2Fast implements Discrepancy {
 
 		int x = (int) (point.x * lattice);
 		int y = (int) (point.y * lattice);
-		for (int j = 0; j <= x; j++)
-			for (int k = 0; k <= y; k++)
-				actualInsides[k][j]++;
+		actualInsides[x][y]++;
 		
 		point.setD(calcD());
 		return point;
@@ -30,10 +28,16 @@ public class Discrepancy2Fast implements Discrepancy {
 		double d = 0;
 		double factor = 1d * count / lattice / lattice;
 		
-		for (int i = 0; i < lattice; i++) {
-			for (int j = 0; j < lattice; j++) {
-				double actualInside = actualInsides[i][j];
-				double expectedInside = factor * (i + 1) * (j + 1);
+		for (int x = 0; x < lattice; x++) {
+			for (int y = 0; y < lattice; y++) {
+				double actualInside = 0;
+				
+				for (int j = 0; j <= x; j++)
+					for (int k = 0; k <= y; k++)
+						actualInside++;
+				
+				int area = (x + 1) * (y + 1); 
+				double expectedInside = factor * area;
 				double difference = actualInside - expectedInside;
 
 				d += difference * difference;

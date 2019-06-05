@@ -29,19 +29,24 @@ public class Discrepancy2 implements Discrepancy {
 		for (int i = 0; i < count; i++) {
 			int x = (int) (points.get(i).x * lattice);
 			int y = (int) (points.get(i).y * lattice);
-			for (int j = 0; j <= x; j++) {
-				for (int k = 0; k <= y; k++) {
-					past[k][j]++;
-				}
+			past[x][y]++;
+		}
+
+		for (int x = 0; x < lattice; x++) {
+			for (int y = 0; y < lattice; y++) {
+				double actualInside = 0;
+
+				for (int j = 0; j <= x; j++)
+					for (int k = 0; k <= y; k++)
+						actualInside++;
+				
+				double area = (1d + x) * (1d + y);
+				double expectedInside = area / lattice / lattice * count;
+				double difference = actualInside - expectedInside;
+
+				d += difference * difference;
 			}
 		}
-		for (int i = 0; i < lattice; i++) {
-			for (int j = 0; j < lattice; j++) {
-				past[i][j] -= ((1d + i) / lattice) * ((1d + j) / lattice) * count;
-				past[i][j] = Math.pow(past[i][j], 2);
-				d += past[i][j];
-			}
-		}
-		return Math.sqrt(d)/(count * lattice * lattice);
+		return Math.sqrt(d) / (count * lattice * lattice);
 	}	
 }
