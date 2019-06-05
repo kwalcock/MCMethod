@@ -5,7 +5,7 @@ import java.util.Random;
 import org.junit.Test;
 
 public class TestTime {
-	protected int count = 100000;
+	protected int count = 1000;
 	
 	protected long time(Discrepancy discrepancy) {
 		long startTime = System.nanoTime();
@@ -27,11 +27,13 @@ public class TestTime {
 		double b = randomB.nextDouble();
 		
 		Discrepancy[] discrepancies = new Discrepancy[] {
-//			new Discrepancy1(a, b),
+			new Discrepancy1(a, b),
 			new Discrepancy1Fast(a, b),
-//			new Discrepancy2(a, b),
-//			new Discrepancy3(a, b),
-//			new PolarDiscrepancy(a, b),
+			new Discrepancy2(a, b),
+			new Discrepancy2Fast(a, b),
+			new Discrepancy3(a, b),
+			new Discrepancy3Fast(a, b),
+			new PolarDiscrepancy(a, b),
 			new PolarDiscrepancySorted(a, b),
 			new PolarDiscrepancyLinked(a, b)
 		};
