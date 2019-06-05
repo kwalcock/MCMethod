@@ -35,8 +35,8 @@ public class MCPoints extends JPanel implements ActionListener, KeyListener{
 	
 //	Discrepancy discrepancy = new Discrepancy1(a, b);
 //	Discrepancy discrepancy = new Discrepancy1Fast(a, b);
-//	Discrepancy discrepancy = new Discrepancy2(a, b);
-	Discrepancy discrepancy = new Discrepancy2Fast(a, b);
+	Discrepancy discrepancy = new Discrepancy2(a, b);
+//	Discrepancy discrepancy = new Discrepancy2Fast(a, b);
 //	Discrepancy discrepancy = new Discrepancy3(a, b);
 //	Discrepancy discrepancy = new Discrepancy3Fast(a, b);
 //	Discrepancy discrepancy = new PolarDiscrepancy(a, b);
