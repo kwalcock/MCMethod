@@ -38,7 +38,7 @@ public class Discrepancy2 implements Discrepancy {
 
 				for (int j = 0; j <= x; j++)
 					for (int k = 0; k <= y; k++)
-						actualInside++;
+						actualInside += past[j][k];
 				
 				double area = (1d + x) * (1d + y);
 				double expectedInside = area / lattice / lattice * count;

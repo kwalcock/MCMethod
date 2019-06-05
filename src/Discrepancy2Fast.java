@@ -1,7 +1,7 @@
 public class Discrepancy2Fast implements Discrepancy {
 	protected PointGenerator pointGenerator;
 	protected int lattice = 12;
-	protected double[][] actualInsides = new double[lattice][lattice];
+	protected int[][] actualInsides = new int[lattice][lattice];
 	protected int count = 0;
 	
 	public Discrepancy2Fast(double a, double b) {
@@ -34,7 +34,7 @@ public class Discrepancy2Fast implements Discrepancy {
 				
 				for (int j = 0; j <= x; j++)
 					for (int k = 0; k <= y; k++)
-						actualInside++;
+						actualInside += actualInsides[j][k];
 				
 				int area = (x + 1) * (y + 1); 
 				double expectedInside = factor * area;
