@@ -57,6 +57,6 @@ public class Discrepancy1Fast implements Discrepancy {
 			
 			d += difference * difference;
 		}
-		return Math.sqrt(d) / count;
+		return Math.sqrt(d / count);
 	}
 }

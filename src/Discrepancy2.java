@@ -47,6 +47,6 @@ public class Discrepancy2 implements Discrepancy {
 				d += difference * difference;
 			}
 		}
-		return Math.sqrt(d) / (count * lattice * lattice);
+		return Math.sqrt(d / count) / lattice / lattice;
 	}	
 }

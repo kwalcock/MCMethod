@@ -39,6 +39,6 @@ public class Discrepancy3 implements Discrepancy {
 				d += in[x][y];
 			}
 		}
-		return Math.sqrt(d) / (count * lattice * lattice);
+		return Math.sqrt(d / count) / lattice / lattice;
 	}
 }

@@ -37,6 +37,6 @@ public class Discrepancy3Fast implements Discrepancy {
 				d += difference * difference;
 			}
 		}
-		return Math.sqrt(d) / (count * lattice * lattice);
+		return Math.sqrt(d / count) / lattice / lattice;
 	}
 }

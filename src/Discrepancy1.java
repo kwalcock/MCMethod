@@ -36,6 +36,6 @@ public class Discrepancy1 implements Discrepancy {
 			
 			d += difference * difference;
 		}
-		return Math.sqrt(d) / count;
+		return Math.sqrt(d / count);
 	}
 }
